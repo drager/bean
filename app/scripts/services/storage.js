@@ -20,22 +20,40 @@ export const Time = {
 
 class Storage {
 	constructor($window) {
-    this.sessionStorage = $window.sessionStorage;
-    this.localStorage = $window.localStorage;
+    if (this.isStoragePresent()) {
+      this.localStorage = $window.localStorage;
+      this.sessionStorage = $window.sessionStorage;
+    } else {
+      this.localStorage = null;
+      this.sessionStorage = null;
+    }
   }
 
-  /**
+  isStoragePresent() {
+    try {
+      this.localStorage.setItem(null, null);
+      this.sessionStorage.setItem(null, null);
+      return true;
+    } catch (exception) {
+      return false;
+    }
+  }
+
+
+    /**
    * Set item in the given type of storage
    * @param id
    * @param data
    * @param type
    */
   save(id, data, type) {
-    if (type === Type.Session) {
-      this.sessionStorage.setItem(id, angular.toJson(data));
-    } else if (type === Type.Local) {
-      let obj = {data: data, timestamp: new Date().getTime()};
-      this.localStorage.setItem(id, angular.toJson(obj));
+    if (this.isStoragePresent()) {
+      if (type === Type.Session) {
+        this.sessionStorage.setItem(id, angular.toJson(data));
+      } else if (type === Type.Local) {
+        let obj = {data: data, timestamp: new Date().getTime()};
+        this.localStorage.setItem(id, angular.toJson(obj));
+      }
     }
   }
 
@@ -44,7 +62,9 @@ class Storage {
    * @param id
    */
   remove(id) {
-    this.sessionStorage.removeItem(id);
+    if (this.isStoragePresent()) {
+      this.sessionStorage.removeItem(id);
+    }
   }
 
   /**
@@ -54,17 +74,19 @@ class Storage {
    * @returns {*}
    */
   get(id, type) {
-    let data;
-    if (type === Type.Session) {
-      try {
-        data = angular.fromJson(this.sessionStorage.getItem(id));
-      } catch (e) {
-        return;
+    if (this.isStoragePresent()) {
+      let data;
+      if (type === Type.Session) {
+        try {
+          data = angular.fromJson(this.sessionStorage.getItem(id));
+        } catch (e) {
+          return;
+        }
+      } else if (type === Type.Local) {
+        data = angular.fromJson(this.localStorage.getItem(id));
       }
-    } else if (type === Type.Local) {
-      data = angular.fromJson(this.localStorage.getItem(id));
+      return data;
     }
-    return data;
   }
 }
 
