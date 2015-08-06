@@ -6,8 +6,8 @@ class Api {
 	constructor($http, storage) {
     this.$http = $http;
     this.format = 'json';
-    this.key = 'faa8b00f6250385c555eca4b0bbfe27932d133c6';
-    this.url = `http://128.199.44.244:1337/api/v1`;
+    this.key = 'f70f0b5435fb1ffa84223c05ff3e5cc2821fe953';
+    this.url = `http://localhost:8000/api/v1`;
     this.storage = storage;
   }
 

@@ -42,6 +42,7 @@ class Place {
 
     this.api.getPlaces(this.query, this.latitude, this.longitude, search).then(({data}) => {
       this.$timeout(() => {
+        console.log(data.results);
         this.places = data.results;
         this.loading = false;
       }, 0);
