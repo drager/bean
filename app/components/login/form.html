@@ -1,29 +1,49 @@
-<md-dialog>
-  <md-content>
-    <form name="loginForm" ng-submit="login(user)" novalidate>
-      <div ng-if="error">Fel användarnamn och/eller lösenord</div>
-      <md-input-container>
-        <label>Användarnamn</label>
-        <input type="text" name="username" ng-model="user.username" ng-minlength="2" required>
-        <div ng-messages="loginForm.username.$error" ng-if="loginForm.username.$dirty">
-          <div ng-message="minlength">Måste ha minst 2 tecken</div>
-        </div>
-      </md-input-container>
-      <md-input-container>
-        <label>Lösenord</label>
-        <input type="password" name="password" ng-model="user.password" ng-minlength="2" required>
-        <div ng-if="loginForm.password.$dirty" ng-messages="loginForm.password.$error">
-          <div ng-message="minlength">Fältet får ej vara tomt</div>
-        </div>
-      </md-input-container>
-      <div class="md-actions" layout="row">
-        <md-button type="submit">
-          Logga in
-        </md-button>
-        <md-button type="button" ng-click="closeDialog()" class="md-primary">
-          Stäng
+<md-dialog aria-label="Sign in">
+  <form name="loginForm" ng-submit="login(user)" novalidate>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Logga in</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" type="button"
+                   ng-click="closeDialog()">
+          <i class="material-icons">close</i>
         </md-button>
       </div>
-    </form>
-  </md-content>
+    </md-toolbar>
+    <md-dialog-content>
+      <md-content>
+        <div class="error" ng-if="error">Fel användarnamn och/eller lösenord
+        </div>
+        <md-input-container>
+          <label>Användarnamn</label>
+          <input type="text" name="username" ng-model="user.username"
+                 ng-minlength="2" required>
+
+          <div ng-messages="loginForm.username.$error"
+               ng-if="loginForm.username.$dirty">
+            <div ng-message="minlength">Måste ha minst 2 tecken</div>
+          </div>
+        </md-input-container>
+        <md-input-container>
+          <label>Lösenord</label>
+          <input type="password" name="password" ng-model="user.password"
+                 ng-minlength="2" required>
+
+          <div ng-if="loginForm.password.$dirty"
+               ng-messages="loginForm.password.$error">
+            <div ng-message="minlength">Fältet får ej vara tomt</div>
+          </div>
+        </md-input-container>
+      </md-content>
+    </md-dialog-content>
+    <md-divider></md-divider>
+    <div class="md-actions" layout="row">
+      <md-button type="submit" class="md-primary">
+        Logga in
+      </md-button>
+      <md-button type="button" ng-click="closeDialog()">
+        Stäng
+      </md-button>
+    </div>
+  </form>
 </md-dialog>

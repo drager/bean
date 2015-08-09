@@ -5,3 +5,21 @@ login {
 .hidden {
   display: none;
 }
+
+md-dialog {
+  min-width: 40vw;
+  md-content.md-default-theme {
+    background: #ffffff;
+    padding: 8px;
+  }
+  .md-actions {
+    justify-content: center;
+  }
+  .error {
+    color: rgb(244,67,54);
+    -webkit-font-smoothing: antialiased;
+    font-size: 12px;
+    line-height: 24px;
+    padding-left: 3px;
+  }
+}
