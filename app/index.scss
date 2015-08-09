@@ -1,5 +1,43 @@
 $primaryBG: #388E3C;
 
+.md-fab-menu-bottom-right {
+  top: auto;
+  right: 10px;
+  bottom: 10px;
+  left: auto;
+  position: absolute;
+}
+
+md-fab-actions {
+  z-index: 20;
+}
+
+.md-button.md-fab {
+  &.map-fab {
+    background-color: #607D8B;
+    &:hover {
+      background-color: #455A64 !important;
+    }
+    &:focus {
+      background-color: #455A64 !important;
+    }
+  }
+  &.write-fab {
+    background-color: #00B8D4;
+    &:hover {
+      background-color: #00838F !important;
+    }
+    &:focus {
+      background-color: #00838F !important;
+    }
+  }
+  &.filter-fab {
+    background-color: #B2FF59;
+  }
+  md-icon {
+    color: #FFFFFF;
+  }
+}
 
 /* latin */
 @font-face {

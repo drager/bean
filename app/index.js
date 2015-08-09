@@ -25,6 +25,8 @@ angular.module('bean', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'rest
 
     $mdThemingProvider.theme('default')
       .primaryPalette('brown')
-      .accentPalette('green');
+      .accentPalette('green', {
+        'hue-3': '600'
+      });
   })
 ;

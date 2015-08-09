@@ -14,6 +14,7 @@ class Place {
     this.$scope = $scope;
     this.$timeout = $timeout;
     this.loading = true;
+    this.fabOpen = false;
 
     observeOnScope($scope, 'ctrl.query').skip(2).debounce(250).subscribe(() => {
       if (this.query !== null || this.query !== '') {

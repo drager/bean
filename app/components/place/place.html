@@ -1,94 +1,117 @@
 <md-toolbar layout="row">
   <div class="md-toolbar-tools">
     <a ui-sref="home"><h3>Bean</h3></a>
-    <div layout="row" layout-align="center center" flex>
 
+    <div layout="row" layout-align="center center" flex>
       <md-autocomplete
         md-search-text="ctrl.query"
         md-items="item in []"
-        placeholder="Vad söker du?">
+        placeholder="Sök café via namn, stad eller beskrivning...">
       </md-autocomplete>
-
-      <md-select id="tags" ng-model="tagObj">
-        <md-select-label>{{tagObj.name ? tagObj.name : 'Taggar'}}</md-select-label>
-        <md-option ng-value="true">Alla</md-option>
-        <md-option ng-value="tag" ng-repeat="tag in ctrl.tags">{{tag.name}}</md-option>
-      </md-select>
     </div>
-
     <login></login>
   </div>
 </md-toolbar>
 <md-content class="layout">
 
-    <div layout="row" layout-wrap layout-align="center start">
+  <div layout="row" layout-wrap layout-align="center start">
 
-  <div ng-repeat="place in values = (ctrl.places| filter: tagObj.name)">
-    <a ui-sref="place({ id: place.id })">
-      <md-card>
-        <img ng-src="{{place.image}}" alt=""/>
-        <md-toolbar class="md-theme-light">
-          <h1 class="md-toolbar-tools">
-            <span>{{place.name}}</span>
-          </h1>
-        </md-toolbar>
-        <md-content>
-          <md-list>
-            <md-list-item class="md-3-line">
-              <div class="md-list-item-text">
-                <div class="md-tile-content">
-                  <div layout="row" layout-align="center center">
-                    <md-icon md-svg-src="https://rawgit.com/google/material-design-icons/master/action/svg/production/ic_grade_24px.svg">
-                    </md-icon>
-                    <span style="padding-left: 16px;">{{place.rating | number:1}}</span>
-                    <span flex></span>
+    <div ng-repeat="place in ctrl.places">
+      <a ui-sref="place({ id: place.id })">
+        <md-card>
+          <img ng-src="{{place.image}}" alt=""/>
+          <md-toolbar class="md-theme-light">
+            <h1 class="md-toolbar-tools">
+              <span>{{place.name}}</span>
+            </h1>
+          </md-toolbar>
+          <md-content>
+            <md-list>
+              <md-list-item class="md-3-line">
+                <div class="md-list-item-text">
+                  <div class="md-tile-content">
+                    <div layout="row" layout-align="center center">
+                      <md-icon>
+                        grade
+                      </md-icon>
+                      <span style="padding-left: 16px;">{{place.rating | number:1}}</span>
+                      <span flex></span>
+                    </div>
                   </div>
                 </div>
-              </div>
+                <md-divider></md-divider>
+              </md-list-item>
+              <md-list-item class="md-3-line">
+                <div class="md-list-item-text">
+                  <div class="md-tile-content">
+                    <div layout="row" layout-align="center center">
+                      <md-icon>
+                        place
+                      </md-icon>
+                      <span style="padding-left: 16px;">{{place.address}}</span>
+                      <span flex></span>
+                    </div>
+                  </div>
+                </div>
+              </md-list-item>
               <md-divider></md-divider>
-            </md-list-item>
-            <md-list-item class="md-3-line">
-              <div class="md-list-item-text">
-                <div class="md-tile-content">
-                  <div layout="row" layout-align="center center">
-                    <md-icon md-svg-src="https://rawgit.com/google/material-design-icons/master/maps/svg/production/ic_place_24px.svg">
-                    </md-icon>
-                    <span style="padding-left: 16px;">{{place.address}}</span>
-                    <span flex></span>
+            </md-list>
+          </md-content>
+          <md-content style="padding: 16px">
+            {{place.description}}
+          </md-content>
+          <md-divider></md-divider>
+          <md-content>
+            <md-list>
+              <md-item>
+                <md-item-content>
+                  <div class="md-tile-content">
+                    <div layout="row" layout-align="center center">
+                      <span ng-repeat="tag in place.tags"
+                            style="padding-left: 16px;">{{tag.name}}</span>
+                      <span flex></span>
+                    </div>
                   </div>
-                </div>
-              </div>
-            </md-list-item>
-            <md-divider></md-divider>
-          </md-list>
-        </md-content>
-        <md-content style="padding: 16px">
-          {{place.description}}
-        </md-content>
-        <md-divider></md-divider>
-        <md-content>
-          <md-list>
-            <md-item>
-              <md-item-content>
-                <div class="md-tile-content">
-                  <div layout="row" layout-align="center center">
-                    <span ng-repeat="tag in place.tags" style="padding-left: 16px;">{{tag.name}}</span>
-                    <span flex></span>
-                  </div>
-                </div>
-              </md-item-content>
-            </md-item>
-          </md-list>
-        </md-content>
-      </md-card>
-    </a>
+                </md-item-content>
+              </md-item>
+            </md-list>
+          </md-content>
+        </md-card>
+      </a>
+    </div>
+    <div ng-if="ctrl.loading">
+      <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+    </div>
+    <p ng-show="!ctrl.places.length && !ctrl.loading">Hittade inga caféer...
+      Vänligen
+      sök på något annat eller välj en annan tagg.</p>
   </div>
-      <div ng-if="ctrl.loading">
-        <md-progress-circular md-mode="indeterminate"></md-progress-circular>
-      </div>
-      <p ng-show="!values.length && !ctrl.loading">Hittade inga caféer... Vänligen sök på något annat eller välj en annan tagg.</p>
-      </div>
 </md-content>
 
-<place-map ng-if="ctrl.places" places="ctrl.places" ng-class="{open:ctrl.mapOpen}"></place-map>
-<fab-menu map-open="ctrl.toggleMap()" class="md-fab-menu-bottom-right"></fab-menu>
+<place-map ng-if="ctrl.places" places="ctrl.places"
+           ng-class="{open:ctrl.mapOpen}"></place-map>
+<md-fab-speed-dial md-open="ctrl.fabOpen" md-direction="up"
+                   class="md-fab-menu-bottom-right md-scale">
+  <md-fab-trigger>
+    <md-button aria-label="Open menu" class="md-fab md-hue-3"
+               ng-click="ctrl.mapOpen = false">
+      <md-icon aria-label="menu">
+        menu
+      </md-icon>
+    </md-button>
+  </md-fab-trigger>
+  <md-fab-actions>
+    <md-button aria-label="Show on map"
+               ng-click="ctrl.mapOpen = !ctrl.mapOpen"
+               class="md-fab md-raised map-fab">
+      <md-icon aria-label="map">
+        map
+      </md-icon>
+    </md-button>
+    <md-button aria-label="Write review" class="md-fab md-raised write-fab">
+      <md-icon aria-label="edit">
+        edit
+      </md-icon>
+    </md-button>
+  </md-fab-actions>
+</md-fab-speed-dial>
